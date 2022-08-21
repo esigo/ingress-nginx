@@ -1108,6 +1108,41 @@ func createOpentracingCfg(cfg ngx_config.Configuration) error {
 	return os.WriteFile("/etc/nginx/opentracing.json", []byte(expanded), file.ReadWriteByUser)
 }
 
+func createOpentelemetryCfg(cfg ngx_config.Configuration) error {
+	var tmpl *template.Template
+	var err error
+
+	if cfg.ZipkinCollectorHost != "" {
+		tmpl, err = template.New("zipkin").Parse(zipkinTmpl)
+		if err != nil {
+			return err
+		}
+	} else if cfg.JaegerCollectorHost != "" || cfg.JaegerEndpoint != "" {
+		tmpl, err = template.New("jaeger").Parse(jaegerTmpl)
+		if err != nil {
+			return err
+		}
+	} else if cfg.DatadogCollectorHost != "" {
+		tmpl, err = template.New("datadog").Parse(datadogTmpl)
+		if err != nil {
+			return err
+		}
+	} else {
+		tmpl, _ = template.New("empty").Parse("{}")
+	}
+
+	tmplBuf := bytes.NewBuffer(make([]byte, 0))
+	err = tmpl.Execute(tmplBuf, cfg)
+	if err != nil {
+		return err
+	}
+
+	// Expand possible environment variables before writing the configuration to file.
+	expanded := os.ExpandEnv(tmplBuf.String())
+
+	return os.WriteFile("/etc/nginx/opentracing.json", []byte(expanded), file.ReadWriteByUser)
+}
+
 func cleanTempNginxCfg() error {
 	var files []string
 

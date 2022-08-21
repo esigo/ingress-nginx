@@ -145,6 +145,8 @@ spec:
           {{- end }}
         {{- if (or .Values.controller.customTemplate.configMapName .Values.controller.extraVolumeMounts .Values.controller.admissionWebhooks.enabled .Values.controller.extraModules) }}
           volumeMounts:
+            - name: otel-config
+              mountPath: /conf
           {{- if .Values.controller.extraModules }}
             - name: modules
               mountPath: /modules_mount
@@ -178,6 +180,7 @@ spec:
         {{- range .Values.controller.extraModules }}
           - name: {{ .name }}
             image: {{ .image }}
+            imagePullPolicy: Never
             command: ['sh', '-c', '/usr/local/bin/init_module.sh']
             volumeMounts:
               - name: modules
@@ -204,6 +207,9 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
     {{- if (or .Values.controller.customTemplate.configMapName .Values.controller.extraVolumeMounts .Values.controller.admissionWebhooks.enabled .Values.controller.extraVolumes .Values.controller.extraModules) }}
       volumes:
+        - name: otel-config
+          configMap:
+            name: {{ include "ingress-nginx.controller.fullname" . }}.otel
       {{- if .Values.controller.extraModules }}
         - name: modules
           emptyDir: {}

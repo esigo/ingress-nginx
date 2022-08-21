@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  generation: 1
+  name: demo-localhost
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: esigo-dev.me
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo
+            port:
+              number: 80
+status:
+  loadBalancer:
+    ingress:
+    - hostname: localhost

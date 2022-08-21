@@ -10,3 +10,6 @@ data:
   proxy-connect-timeout: "10"
   proxy-read-timeout: "120"
   proxy-send-timeout: "120"
+  # enable-opentracing: "true"
+  # jaeger-collector-host: jaeger-all-in-one-collector.observability.svc
+  enable-opentelemetry: "true"

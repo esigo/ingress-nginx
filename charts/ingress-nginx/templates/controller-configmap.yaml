@@ -13,7 +13,11 @@ metadata:
   name: {{ include "ingress-nginx.controller.fullname" . }}
   namespace: {{ .Release.Namespace }}
 data:
+  enable-opentelemetry: "true"
+  opentelemetry-config: "/conf/otel-nginx.toml"
+  opentelemetry-operation-name: "HTTP $request_method $service_name $uri"
   allow-snippet-annotations: "{{ .Values.controller.allowSnippetAnnotations }}"
+  OpentelemetryTrustIncomingSpan: "true"
 {{- if .Values.controller.addHeaders }}
   add-headers: {{ .Release.Namespace }}/{{ include "ingress-nginx.fullname" . }}-custom-add-headers
 {{- end }}

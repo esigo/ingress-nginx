@@ -59,3 +59,9 @@ images/fastcgi-helloserver/rootfs/fastcgi-helloserver
 cmd/plugin/release/ingress-nginx.yaml
 cmd/plugin/release/*.tar.gz
 cmd/plugin/release/LICENSE
+controller_v1.3.0.tar
+otel-dev.tar
+tst/service-a.tar
+tst/service-b.tar
+tst/micro_service/service-a.tar
+tst/micro_service/service-b.tar

@@ -18,15 +18,16 @@ controller:
   image:
     ## Keep false as default for now!
     chroot: false
-    registry: registry.k8s.io
-    image: ingress-nginx/controller
+    # gcr.io/k8s-staging-ingress-nginx/controller:v1.3.0
+    registry: gcr.io
+    image: k8s-staging-ingress-nginx/controller
     ## for backwards compatibility consider setting the full image url via the repository value below
     ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
     ## repository:
     tag: "v1.3.0"
-    digest: sha256:d1707ca76d3b044ab8a28277a2466a02100ee9f58a86af1535a3edf9323ea1b5
-    digestChroot: sha256:0fcb91216a22aae43b374fc2e6a03b8afe9e8c78cbf07a09d75636dc4ea3c191
-    pullPolicy: IfNotPresent
+    # digest: sha256:d1707ca76d3b044ab8a28277a2466a02100ee9f58a86af1535a3edf9323ea1b5
+    # digestChroot: sha256:0fcb91216a22aae43b374fc2e6a03b8afe9e8c78cbf07a09d75636dc4ea3c191
+    pullPolicy: Never
     # www-data -> uid 101
     runAsUser: 101
     allowPrivilegeEscalation: true
@@ -439,6 +440,8 @@ controller:
   customTemplate:
     configMapName: ""
     configMapKey: ""
+    # configMapName: nginx-conf-tmpl
+    # configMapKey: nginx.tmpl
 
   service:
     enabled: true
@@ -577,10 +580,11 @@ controller:
   #   image: busybox
   #   command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
 
-  extraModules: []
+  extraModules:
   ## Modules, which are mounted into the core nginx image
-  # - name: opentelemetry
-  #   image: registry.k8s.io/ingress-nginx/opentelemetry:v20220801-g00ee51f09@sha256:482562feba02ad178411efc284f8eb803a185e3ea5588b6111ccbc20b816b427
+  - name: opentelemetry
+    image: otel-dev:latest
+    # image: k8s.gcr.io/ingress-nginx/opentelemetry:v20220801-g00ee51f09@sha256:482562feba02ad178411efc284f8eb803a185e3ea5588b6111ccbc20b816b427
   #
   # The image must contain a `/usr/local/bin/init_module.sh` executable, which
   # will be executed as initContainers, to move its config files within the

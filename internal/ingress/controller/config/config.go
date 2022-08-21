@@ -559,6 +559,24 @@ type Configuration struct {
 	// Default: true
 	OpentracingTrustIncomingSpan bool `json:"opentracing-trust-incoming-span"`
 
+	// EnableOpentelemetry enables the nginx Opentelemetry extension
+	// By default this is disabled
+	EnableOpentelemetry bool `json:"enable-opentelemetry"`
+
+	// OpentelemetryConfig sets the opentelemetry config file
+	OpentelemetryConfig string `json:"opentelemetry-config"`
+
+	// OpentelemetryOperationName specifies a custom name for the server span
+	OpentelemetryOperationName string `json:"opentelemetry-operation-name"`
+
+	// OpentelemetryOperationName specifies a custom name for the location span
+	OpentelemetryLocationOperationName string `json:"opentelemetry-location-operation-name"`
+
+	// OpentelemetryTrustIncomingSpan sets whether or not to trust incoming trace spans
+	// If false, incoming span headers will be rejected
+	// Default: true
+	OpentelemetryTrustIncomingSpan bool `json:"opentelemetry-trust-incoming-span"`
+
 	// ZipkinCollectorHost specifies the host to use when uploading traces
 	ZipkinCollectorHost string `json:"zipkin-collector-host"`
 
@@ -900,14 +918,16 @@ func NewDefault() Configuration {
 			ProxyMaxTempFileSize:     "1024m",
 			ServiceUpstream:          false,
 		},
-		UpstreamKeepaliveConnections:           320,
-		UpstreamKeepaliveTime:                  "1h",
-		UpstreamKeepaliveTimeout:               60,
-		UpstreamKeepaliveRequests:              10000,
-		LimitConnZoneVariable:                  defaultLimitConnZoneVariable,
-		BindAddressIpv4:                        defBindAddress,
-		BindAddressIpv6:                        defBindAddress,
-		OpentracingTrustIncomingSpan:           true,
+		UpstreamKeepaliveConnections: 320,
+		UpstreamKeepaliveTime:        "1h",
+		UpstreamKeepaliveTimeout:     60,
+		UpstreamKeepaliveRequests:    10000,
+		LimitConnZoneVariable:        defaultLimitConnZoneVariable,
+		BindAddressIpv4:              defBindAddress,
+		BindAddressIpv6:              defBindAddress,
+		OpentracingTrustIncomingSpan: true,
+		// OpentelemetryConfig:                    "/conf/otel-nginx.toml",
+		OpentelemetryTrustIncomingSpan:         true,
 		ZipkinCollectorPort:                    9411,
 		ZipkinServiceName:                      "nginx",
 		ZipkinSampleRate:                       1.0,
