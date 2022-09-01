@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
 
       - name: Run Gosec Security Scanner
-        uses: securego/gosec@b99b5f7838e43a4104354ad92a6a1774302ee1f9 # master
+        uses: securego/gosec@19fa856badad483cae700ee1213dd7f1a933d6d3 # master
         with:
           # G601 for zz_generated.deepcopy.go
           # G306 TODO: Expect WriteFile permissions to be 0600 or less
@@ -70,11 +70,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
 
-      - name: Set up Go 1.18
+      - name: Set up Go 1.19.0
         id: go
-        uses: actions/setup-go@84cbf8094393cdc5fe1fe1671ff2647332956b1a # v3.2.0
+        uses: actions/setup-go@268d8c0ca0432bb2cf416faae41297df9d262d7f # v3.2.0
         with:
-          go-version: '1.18.2'
+          go-version: '1.19.0'
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@8b122486cedac8393e77aa9734c3528886e4a1a8 #v2.0.0
@@ -134,9 +134,9 @@ jobs:
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
 
       - name: Setup Go
-        uses: actions/setup-go@84cbf8094393cdc5fe1fe1671ff2647332956b1a # v3.2.0
+        uses: actions/setup-go@268d8c0ca0432bb2cf416faae41297df9d262d7f # v3.2.0
         with:
-          go-version: '1.18.2'
+          go-version: '1.19.0'
 
       - name: cache
         uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # v3
@@ -177,7 +177,7 @@ jobs:
           version: v0.14.0
           image: kindest/node:v1.21.12
 
-      - uses: geekyeggo/delete-artifact@a6ab43859c960a8b74cbc6291f362c7fb51829ba # v1
+      - uses: geekyeggo/delete-artifact@b73cb986740e466292a536d0e32e2666c56fdeb3 # v1
         with:
           name: docker.tar.gz
           failOnError: false
@@ -228,13 +228,13 @@ jobs:
           config: test/e2e/kind.yaml
           image: kindest/node:${{ matrix.k8s }}
 
-      - uses: geekyeggo/delete-artifact@a6ab43859c960a8b74cbc6291f362c7fb51829ba # v1
+      - uses: geekyeggo/delete-artifact@b73cb986740e466292a536d0e32e2666c56fdeb3 # v1
         with:
           name: docker.tar.gz
           failOnError: false
 
       - name: Prepare cluster for testing
-        uses: azure/setup-helm@217bf70cbd2e930ba2e81ba7e1de2f7faecc42ba #v2.1
+        uses: azure/setup-helm@b5b231a831f96336bbfeccc1329990f0005c5bb1 #v2.1
         with:
           version: 'v3.8.0'
         id: local-path
@@ -285,13 +285,13 @@ jobs:
           config: test/e2e/kind.yaml
           image: kindest/node:${{ matrix.k8s }}
 
-      - uses: geekyeggo/delete-artifact@a6ab43859c960a8b74cbc6291f362c7fb51829ba
+      - uses: geekyeggo/delete-artifact@b73cb986740e466292a536d0e32e2666c56fdeb3
         with:
           name: docker.tar.gz
           failOnError: false
 
       - name: Prepare cluster for testing
-        uses: azure/setup-helm@217bf70cbd2e930ba2e81ba7e1de2f7faecc42ba #v2.1
+        uses: azure/setup-helm@b5b231a831f96336bbfeccc1329990f0005c5bb1 #v2.1
         with:
           version: 'v3.8.0'
         id: local-path
@@ -406,12 +406,12 @@ jobs:
           version: v0.14.0
           image: kindest/node:v1.21.12
 
-      - name: Set up Go 1.18
+      - name: Set up Go 1.19.0
         id: go
         if: ${{ steps.filter-images.outputs.kube-webhook-certgen == 'true' }}
-        uses: actions/setup-go@84cbf8094393cdc5fe1fe1671ff2647332956b1a # v3.2.0
+        uses: actions/setup-go@268d8c0ca0432bb2cf416faae41297df9d262d7f # v3.2.0
         with:
-          go-version: '1.18.2'
+          go-version: '1.19.0'
 
       - name: kube-webhook-certgen image build
         if: ${{ steps.filter-images.outputs.kube-webhook-certgen == 'true' }}
