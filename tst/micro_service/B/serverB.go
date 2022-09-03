@@ -14,7 +14,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	// Routes consist of a path and a handler function.
-	r.HandleFunc("/test", HandleRoot)
+	r.HandleFunc("/", HandleRoot)
 
 	// Bind to a port and pass our router in
 	log.Fatal(http.ListenAndServe(":80", r))

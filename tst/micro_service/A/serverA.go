@@ -11,7 +11,8 @@ import (
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
 	// resp, err := http.Get("http://esigo.dev.b:8090/test")
 	// url := "http://esigo.dev.b:8090/test"
-	url := "http://microapp-service-b.myapp.svc.cluster.local:80/test"
+	url := "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80/serviceb/test"
+	// url := "http://microapp-service-b.myapp.svc.cluster.local:80/test"
 	http.NewRequest("GET", url, nil)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

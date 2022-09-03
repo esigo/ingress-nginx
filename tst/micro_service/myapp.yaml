@@ -169,3 +169,41 @@ spec:
 # metadata:
 #   name: ingress-nginx-controller
 #   namespace: ingress-nginx
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
+    nginx.ingress.kubernetes.io/opentelemetry-trust-incoming-span: "true"
+    nginx.ingress.kubernetes.io/opentelemetry-config: "/conf/otel-nginx.toml"
+    nginx.ingress.kubernetes.io/opentelemetry-operation-name: "serviceb"
+    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/enable-opentracing: "true"
+    # nginx.ingress.kubernetes.io/opentracing-trust-incoming-span: "true"
+  # generation: 1
+  name: microapp
+  namespace: myapp
+spec:
+  # ingressClassName: nginx
+  rules:
+  - host: esigo.dev
+    http:
+      paths:
+      -
+        backend:
+            service:
+              name: microapp-service-a
+              port:
+                number: 80
+        path: /servicea
+        pathType: Prefix
+      -
+        backend:
+            service:
+              name: microapp-service-b
+              port:
+                number: 80
+        path: /serviceb
+        pathType: Prefix
