@@ -95,7 +95,6 @@ KIND_WORKERS=$(kind get nodes --name="${KIND_CLUSTER_NAME}" | grep worker | awk 
 
 echo "[dev-env] copying docker images to cluster..."
 docker pull registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
-kind load docker-image --name="${KIND_CLUSTER_NAME}" --nodes=${KIND_WORKERS} registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
 kind load docker-image --name="${KIND_CLUSTER_NAME}" --nodes=${KIND_WORKERS} nginx-ingress-controller:e2e
 
 if [ "${IS_CHROOT:-false}" = "true" ]; then
