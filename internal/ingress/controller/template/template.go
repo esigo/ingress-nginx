@@ -1682,6 +1682,10 @@ func shouldLoadOpentelemetryModule(c interface{}, s interface{}) bool {
 		return false
 	}
 
+	if cfg.IsChroot {
+		return false
+	}
+
 	servers, ok := s.([]*ingress.Server)
 	if !ok {
 		klog.Errorf("expected an '[]*ingress.Server' type but %T was returned", s)
