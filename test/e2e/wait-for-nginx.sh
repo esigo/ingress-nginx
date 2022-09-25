@@ -46,12 +46,6 @@ metadata:
 
 EOF
 
-otel_image="registry.k8s.io/ingress-nginx/opentelemetry"
-otle_image_tag="v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e"
-if [[ "$(docker images -q  $otel_image 2> /dev/null)" == "" ]]; then
-  docker pull $otel_image:$otle_image_tag
-fi
-
 # Use the namespace overlay if it was requested
 if [[ ! -z "$NAMESPACE_OVERLAY" && -d "$DIR/namespace-overlays/$NAMESPACE_OVERLAY" ]]; then
     echo "Namespace overlay $NAMESPACE_OVERLAY is being used for namespace $NAMESPACE"
@@ -108,8 +102,8 @@ controller:
 
   extraModules:
     - name: opentelemetry
-      image: registry.k8s.io/ingress-nginx/opentelemetry
-      # image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
+      # image: registry.k8s.io/ingress-nginx/opentelemetry
+      image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
 
 rbac:
   create: true
