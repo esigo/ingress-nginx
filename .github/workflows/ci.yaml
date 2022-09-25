@@ -194,7 +194,7 @@ jobs:
           SKIP_IMAGE_CREATION: true
         run: |
           kind get kubeconfig > $HOME/.kube/kind-config-kind
-          make kind-e2e-chart-tests
+          # make kind-e2e-chart-tests
 
 
   kubernetes:
