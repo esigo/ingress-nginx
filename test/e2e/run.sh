@@ -100,7 +100,7 @@ if [[ "$(docker images -q  $otel_image 2> /dev/null)" == "" ]]; then
   docker pull $otel_image:$otle_image_tag
 fi
 
-kind load docker-image --name="${KIND_CLUSTER_NAME}" --nodes=${KIND_WORKERS} $otel_image
+kind load docker-image --name="${KIND_CLUSTER_NAME}" --nodes=${KIND_WORKERS} $otel_image:$otle_image_tag
 # docker pull registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
 kind load docker-image --name="${KIND_CLUSTER_NAME}" --nodes=${KIND_WORKERS} nginx-ingress-controller:e2e
 
