@@ -251,7 +251,7 @@ jobs:
           SKIP_IMAGE_CREATION: true
         run: |
           kind get kubeconfig > $HOME/.kube/kind-config-kind
-          make kind-e2e-test
+          FOCUS="opentelemetry" make kind-e2e-test
 
 
   kubernetes-chroot:
@@ -309,7 +309,7 @@ jobs:
           IS_CHROOT: true
         run: |
           kind get kubeconfig > $HOME/.kube/kind-config-kind
-          make kind-e2e-test
+          FOCUS="opentelemetry" make kind-e2e-test
 
 
   test-image-build:
