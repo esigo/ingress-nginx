@@ -38,7 +38,7 @@ load_module /etc/nginx/modules/ngx_http_opentracing_module.so;
 {{ end }}
 
 {{ if (shouldLoadOpentelemetryModule $cfg $servers) }}
-load_module /modules_mount/etc/nginx/modules/otel/otel_ngx_module.so;
+#load_module /modules_mount/etc/nginx/modules/otel/otel_ngx_module.so;
 {{ end }}
 
 daemon off;
