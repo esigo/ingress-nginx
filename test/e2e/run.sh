@@ -95,7 +95,8 @@ KIND_WORKERS=$(kind get nodes --name="${KIND_CLUSTER_NAME}" | grep worker | awk 
 
 echo "[dev-env] copying docker images to cluster..."
 otel_image="registry.k8s.io/ingress-nginx/opentelemetry"
-otle_image_tag="v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e"
+# otle_image_tag="v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e"
+otle_image_tag="v20220906-g981ce38a7"
 if [[ "$(docker images -q  $otel_image 2> /dev/null)" == "" ]]; then
   docker pull $otel_image:$otle_image_tag
 fi
