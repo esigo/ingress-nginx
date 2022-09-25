@@ -46,6 +46,21 @@ metadata:
 
 EOF
 
+OTEL_MODULE=$(cat <<EOF
+  extraModules:
+    - name: opentelemetry
+      # image: registry.k8s.io/ingress-nginx/opentelemetry
+      # image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
+      image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7
+EOF
+)
+
+echo "${OTEL_MODULE}"
+
+if [[ "$NAMESPACE_OVERLAY" != "enable-opentelemetry" ]]; then
+  OTEL_MODULE=""
+fi
+
 # Use the namespace overlay if it was requested
 if [[ ! -z "$NAMESPACE_OVERLAY" && -d "$DIR/namespace-overlays/$NAMESPACE_OVERLAY" ]]; then
     echo "Namespace overlay $NAMESPACE_OVERLAY is being used for namespace $NAMESPACE"
@@ -99,12 +114,12 @@ controller:
     - name: coredump
       hostPath:
         path: /tmp/coredump
-
-  extraModules:
-    - name: opentelemetry
-      # image: registry.k8s.io/ingress-nginx/opentelemetry
-      # image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
-      image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7
+${OTEL_MODULE}
+  # extraModules:
+  #   - name: opentelemetry
+  #     # image: registry.k8s.io/ingress-nginx/opentelemetry
+  #     # image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
+  #     image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7
 
 rbac:
   create: true
