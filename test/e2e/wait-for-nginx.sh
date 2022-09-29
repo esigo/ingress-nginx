@@ -46,6 +46,22 @@ metadata:
 
 EOF
 
+OTEL_MODULE=$(cat <<EOF
+  extraModules:
+    - name: opentelemetry
+      image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7
+EOF
+)
+
+echo "${OTEL_MODULE}"
+
+if [[ "$NAMESPACE_OVERLAY" != "enable-opentelemetry" ]]; then
+  OTEL_MODULE=""
+  CHROOT=true
+else if [[ "$NAMESPACE_OVERLAY" == "enable-opentelemetry" && "$IS_CHROOT" != false ]]; then
+  CHROOT=false
+fi
+
 # Use the namespace overlay if it was requested
 if [[ ! -z "$NAMESPACE_OVERLAY" && -d "$DIR/namespace-overlays/$NAMESPACE_OVERLAY" ]]; then
     echo "Namespace overlay $NAMESPACE_OVERLAY is being used for namespace $NAMESPACE"
@@ -59,7 +75,7 @@ fullnameOverride: nginx-ingress
 controller:
   image:
     repository: ingress-controller/controller
-    chroot: true
+    chroot: ${CHROOT}
     tag: 1.0.0-dev
     digest:
     digestChroot:
@@ -99,6 +115,9 @@ controller:
     - name: coredump
       hostPath:
         path: /tmp/coredump
+
+
+${OTEL_MODULE}
 
 rbac:
   create: true
