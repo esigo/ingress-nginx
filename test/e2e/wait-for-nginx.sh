@@ -57,6 +57,9 @@ echo "${OTEL_MODULE}"
 
 if [[ "$NAMESPACE_OVERLAY" != "enable-opentelemetry" ]]; then
   OTEL_MODULE=""
+  CHROOT=true
+else if [[ "$NAMESPACE_OVERLAY" == "enable-opentelemetry" && "$IS_CHROOT" != false ]]; then
+  CHROOT=false
 fi
 
 # Use the namespace overlay if it was requested
@@ -72,7 +75,7 @@ fullnameOverride: nginx-ingress
 controller:
   image:
     repository: ingress-controller/controller
-    chroot: true
+    chroot: ${CHROOT}
     tag: 1.0.0-dev
     digest:
     digestChroot:
