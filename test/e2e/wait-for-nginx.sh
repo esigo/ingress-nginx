@@ -71,8 +71,8 @@ fullnameOverride: nginx-ingress
 controller:
   image:
     repository: ingress-controller/controller
-    chroot: true
-    # chroot: ${IS_CHROOT}
+    # chroot: true
+    chroot: ${IS_CHROOT}
     tag: 1.0.0-dev
     digest:
     digestChroot:
