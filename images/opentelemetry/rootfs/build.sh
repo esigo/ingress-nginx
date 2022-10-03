@@ -154,6 +154,8 @@ install_nginx()
 
   mkdir -p ${INSTAL_DIR}/lib
   cp /usr/lib/libopentelemetry_exporter_otlp_grpc.so* ${INSTAL_DIR}/lib
+  cp /usr/lib/libopentelemetry_exporter_otlp_grpc_client.so* ${INSTAL_DIR}/lib
+
   cp /usr/lib/libopentelemetry_otlp_recordable.so* ${INSTAL_DIR}/lib
   cp /usr/lib/libprotobuf.so* ${INSTAL_DIR}/lib
   cp /usr/lib/libopentelemetry_trace.so* ${INSTAL_DIR}/lib
