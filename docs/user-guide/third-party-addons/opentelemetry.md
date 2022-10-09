@@ -73,3 +73,73 @@ otel-sampler
 # Uses sampler implementation which by default will take a sample if parent Activity is sampled, Default: false
 otel-sampler-parent-based
 ```
+
+Note that you can also set whether to trust incoming spans (global default is true) per-location using annotations like the following:
+```yaml
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/opentelemetry-trust-incoming-span: "true"
+```
+
+## Examples
+
+The following examples show how to deploy and test different distributed telemetry systems. These example can be performed using Docker Desktop.
+
+In the [esigo/nginx-example](https://github.com/esigo/nginx-example)
+GitHub repository is an example of a simple hello service. To install the example and collectors run:
+
+1. Enable Ingress addon with extra module:
+    ```yaml
+      extraModules:
+      - name: opentelemetry
+        image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
+    ```
+2. Enable OpenTelemetry and set the jaeger-collector-host:
+    ```yaml
+    $ echo '
+      apiVersion: v1
+      kind: ConfigMap
+      data:
+        enable-opentelemetry: "true"
+        opentelemetry-config: "/etc/nginx/opentelemtry.toml"
+        opentelemetry-operation-name: "HTTP $request_method $service_name $uri"
+        OpentelemetryTrustIncomingSpan: "true"
+        otlp-collector-host: "otel-coll-collector.otel.svc"
+        otlp-collector-port: "4317"
+        otel-max-queuesize: "2048"
+        otel-schedule-delay-millis: "5000"
+        otel-max-export-batch-size: "512"
+        otel-service-name: "nginx-proxy" # Opentelemetry resource name
+        otel-sampler: "AlwaysOn" # Also: AlwaysOff, TraceIdRatioBased
+        otel-sampler-ratio: "1.0"
+        otel-sampler-parent-based: "false"
+      metadata:
+        name: ingress-nginx-controller
+        namespace: kube-system
+      ' | kubectl replace -f -
+    ```
+
+3. build and deploy demo app:
+
+```console
+#build images
+make images
+
+#deploy demo app:
+make deploy-app
+
+4. deploy otel-collector, grafana and Jaeger backend:
+
+```console
+#deploy otel collector, grafan, tempo and Jaeger all-in-one:
+make helm-repo
+make observability
+```
+
+4. test:
+
+```console
+kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
+bash test.sh
+```
