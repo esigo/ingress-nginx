@@ -63,9 +63,6 @@ otel-max-export-batch-size
 # specifies sample rate for any traces created, Default: 0.01
 otel-sampler-ratio
 
-# specifies the port to use when uploading traces, Default: 4317
-otlp-collector-port
-
 # specifies the sampler to be used when sampling traces.
 # The available samplers are: AlwaysOn,  AlwaysOff, TraceIdRatioBased, Default: AlwaysOff
 otel-sampler
