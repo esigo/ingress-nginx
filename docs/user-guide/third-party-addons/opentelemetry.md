@@ -90,12 +90,14 @@ In the [esigo/nginx-example](https://github.com/esigo/nginx-example)
 GitHub repository is an example of a simple hello service. To install the example and collectors run:
 
 1. Enable Ingress addon with extra module:
+
     ```yaml
       extraModules:
       - name: opentelemetry
         image: registry.k8s.io/ingress-nginx/opentelemetry:v20220906-g981ce38a7@sha256:aa079daa7efd93aa830e26483a49a6343354518360929494bad1d0ad3303142e
     ```
-2. Enable OpenTelemetry and set the jaeger-collector-host:
+2. Enable OpenTelemetry and set the otlp-collector-host:
+
     ```yaml
     $ echo '
       apiVersion: v1
@@ -122,24 +124,60 @@ GitHub repository is an example of a simple hello service. To install the exampl
 
 3. build and deploy demo app:
 
-```console
-#build images
-make images
+  ```bash
+  # build images
+  make images
 
-#deploy demo app:
-make deploy-app
+  # deploy demo app:
+  make deploy-app
 
-4. deploy otel-collector, grafana and Jaeger backend:
+  4. deploy otel-collector, grafana and Jaeger backend:
 
-```console
-#deploy otel collector, grafan, tempo and Jaeger all-in-one:
-make helm-repo
-make observability
-```
+  ```bash
+  # deploy otel collector, grafan, tempo and Jaeger all-in-one:
+  make helm-repo
+  make observability
+  ```
 
 4. test:
 
-```console
-kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
-bash test.sh
-```
+  ```bash
+  kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
+  curl http://esigo.dev:8090/hello/nginx
+
+
+  StatusCode        : 200
+  StatusDescription : OK
+  Content           : {"v":"hello nginx!"}
+
+  RawContent        : HTTP/1.1 200 OK
+                      Connection: keep-alive
+                      Content-Length: 21
+                      Content-Type: text/plain; charset=utf-8
+                      Date: Mon, 10 Oct 2022 17:43:33 GMT
+
+                      {"v":"hello nginx!"}
+
+  Forms             : {}
+  Headers           : {[Connection, keep-alive], [Content-Length, 21], [Content-Type, text/plain; charset=utf-8], [Date,
+                      Mon, 10 Oct 2022 17:43:33 GMT]}
+  Images            : {}
+  InputFields       : {}
+  Links             : {}
+  ParsedHtml        : System.__ComObject
+  RawContentLength  : 21
+  ```
+
+5. Grafana
+  ```bash
+  kubectl port-forward --namespace=observability service/grafana 3000:80
+  ```
+  In the Grafana interface we can see the details:
+![grafana screenshot](../../images/otel-grafana-demo.png "grafana screenshot")
+
+6. Jaeger
+  ```bash
+  kubectl port-forward --namespace=observability service/jaeger-all-in-one-query 16686:16686
+  ```
+In the Jaeger interface we can see the details:
+![Jaeger screenshot](../../images/otel-jaeger-demo.png "Jaeger screenshot")
