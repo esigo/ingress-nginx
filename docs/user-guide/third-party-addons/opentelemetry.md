@@ -122,7 +122,14 @@ GitHub repository is an example of a simple hello service. To install the exampl
       ' | kubectl replace -f -
     ```
 
-3. build and deploy demo app:
+4. Deploy otel-collector, grafana and Jaeger backend:
+
+    ```bash
+    # deploy otel collector, grafan, tempo and Jaeger all-in-one:
+    make helm-repo
+    make observability
+    ```
+3. Build and deploy demo app:
 
     ```bash
     # build images
@@ -131,15 +138,7 @@ GitHub repository is an example of a simple hello service. To install the exampl
     # deploy demo app:
     make deploy-app
 
-4. deploy otel-collector, grafana and Jaeger backend:
-
-    ```bash
-    # deploy otel collector, grafan, tempo and Jaeger all-in-one:
-    make helm-repo
-    make observability
-    ```
-
-5. test:
+5. Make a few requests to the Service:
 
     ```bash
     kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
@@ -168,14 +167,14 @@ GitHub repository is an example of a simple hello service. To install the exampl
     RawContentLength  : 21
     ```
 
-6. Grafana
+6. View the Grafana UI:
     ```bash
     kubectl port-forward --namespace=observability service/grafana 3000:80
     ```
     In the Grafana interface we can see the details:
     ![grafana screenshot](../../images/otel-grafana-demo.png "grafana screenshot")
 
-6. Jaeger
+6. View the Jaeger UI:
     ```bash
     kubectl port-forward --namespace=observability service/jaeger-all-in-one-query 16686:16686
     ```
