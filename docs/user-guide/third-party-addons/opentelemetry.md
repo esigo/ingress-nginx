@@ -172,12 +172,12 @@ GitHub repository is an example of a simple hello service. To install the exampl
     ```bash
     kubectl port-forward --namespace=observability service/grafana 3000:80
     ```
-  In the Grafana interface we can see the details:
-![grafana screenshot](../../images/otel-grafana-demo.png "grafana screenshot")
+    In the Grafana interface we can see the details:
+    ![grafana screenshot](../../images/otel-grafana-demo.png "grafana screenshot")
 
 6. Jaeger
     ```bash
     kubectl port-forward --namespace=observability service/jaeger-all-in-one-query 16686:16686
     ```
-In the Jaeger interface we can see the details:
-![Jaeger screenshot](../../images/otel-jaeger-demo.png "Jaeger screenshot")
+    In the Jaeger interface we can see the details:
+    ![Jaeger screenshot](../../images/otel-jaeger-demo.png "Jaeger screenshot")
