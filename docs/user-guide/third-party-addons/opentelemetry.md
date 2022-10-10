@@ -124,60 +124,60 @@ GitHub repository is an example of a simple hello service. To install the exampl
 
 3. build and deploy demo app:
 
-  ```bash
-  # build images
-  make images
+    ```bash
+    # build images
+    make images
 
-  # deploy demo app:
-  make deploy-app
+    # deploy demo app:
+    make deploy-app
 
   4. deploy otel-collector, grafana and Jaeger backend:
 
-  ```bash
-  # deploy otel collector, grafan, tempo and Jaeger all-in-one:
-  make helm-repo
-  make observability
-  ```
+    ```bash
+    # deploy otel collector, grafan, tempo and Jaeger all-in-one:
+    make helm-repo
+    make observability
+    ```
 
 4. test:
 
-  ```bash
-  kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
-  curl http://esigo.dev:8090/hello/nginx
+    ```bash
+    kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8090:80
+    curl http://esigo.dev:8090/hello/nginx
 
 
-  StatusCode        : 200
-  StatusDescription : OK
-  Content           : {"v":"hello nginx!"}
+    StatusCode        : 200
+    StatusDescription : OK
+    Content           : {"v":"hello nginx!"}
 
-  RawContent        : HTTP/1.1 200 OK
-                      Connection: keep-alive
-                      Content-Length: 21
-                      Content-Type: text/plain; charset=utf-8
-                      Date: Mon, 10 Oct 2022 17:43:33 GMT
+    RawContent        : HTTP/1.1 200 OK
+                        Connection: keep-alive
+                        Content-Length: 21
+                        Content-Type: text/plain; charset=utf-8
+                        Date: Mon, 10 Oct 2022 17:43:33 GMT
 
-                      {"v":"hello nginx!"}
+                        {"v":"hello nginx!"}
 
-  Forms             : {}
-  Headers           : {[Connection, keep-alive], [Content-Length, 21], [Content-Type, text/plain; charset=utf-8], [Date,
-                      Mon, 10 Oct 2022 17:43:33 GMT]}
-  Images            : {}
-  InputFields       : {}
-  Links             : {}
-  ParsedHtml        : System.__ComObject
-  RawContentLength  : 21
-  ```
+    Forms             : {}
+    Headers           : {[Connection, keep-alive], [Content-Length, 21], [Content-Type, text/plain; charset=utf-8], [Date,
+                        Mon, 10 Oct 2022 17:43:33 GMT]}
+    Images            : {}
+    InputFields       : {}
+    Links             : {}
+    ParsedHtml        : System.__ComObject
+    RawContentLength  : 21
+    ```
 
 5. Grafana
-  ```bash
-  kubectl port-forward --namespace=observability service/grafana 3000:80
-  ```
+    ```bash
+    kubectl port-forward --namespace=observability service/grafana 3000:80
+    ```
   In the Grafana interface we can see the details:
 ![grafana screenshot](../../images/otel-grafana-demo.png "grafana screenshot")
 
 6. Jaeger
-  ```bash
-  kubectl port-forward --namespace=observability service/jaeger-all-in-one-query 16686:16686
-  ```
+    ```bash
+    kubectl port-forward --namespace=observability service/jaeger-all-in-one-query 16686:16686
+    ```
 In the Jaeger interface we can see the details:
 ![Jaeger screenshot](../../images/otel-jaeger-demo.png "Jaeger screenshot")
