@@ -1,0 +1,18 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.162.0/containers/javascript-node
+{
+  "name": "gateqay",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": { "KIND_VERSION": "0.14.0" }
+  },
+  "mounts": ["type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"],
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "runArgs": [
+    "--network=host",
+  ],
+  "remoteUser": "root"
+}
