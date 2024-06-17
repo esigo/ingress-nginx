@@ -29,6 +29,7 @@ const (
 	opentelemetryTrustIncomingSpan = "opentelemetry-trust-incoming-span"
 
 	opentelemetryOperationName         = "opentelemetry-operation-name"
+	opentelemetryServiceName         = "opentelemetry-service-name"
 	opentelemetryLocationOperationName = "opentelemetry-location-operation-name"
 	opentelemetryConfig                = "opentelemetry-config"
 	opentelemetryConfigPath            = "/etc/ingress-controller/telemetry/opentelemetry.toml"
@@ -115,6 +116,21 @@ var _ = framework.IngressNginxDescribe("Configure Opentelemetry", func() {
 		f.WaitForNginxConfiguration(
 			func(cfg string) bool {
 				return strings.Contains(cfg, `opentelemetry_operation_name "HTTP $request_method $uri"`)
+			})
+	})
+
+	ginkgo.It("should exists opentelemetry_service_name directive when is configured", func() {
+		config := map[string]string{}
+		config[enableOpentelemetry] = enable
+		config[opentelemetryConfig] = opentelemetryConfigPath
+		config[opentelemetryServiceName] = "my_service"
+		f.SetNginxConfigMapData(config)
+
+		f.EnsureIngress(framework.NewSingleIngress(enableOpentelemetry, "/", enableOpentelemetry, f.Namespace, "http-svc", 80, nil))
+
+		f.WaitForNginxConfiguration(
+			func(cfg string) bool {
+				return strings.Contains(cfg, `opentelemetry_service_name "my_service"`)
 			})
 	})
 })

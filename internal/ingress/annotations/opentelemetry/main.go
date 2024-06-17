@@ -30,6 +30,7 @@ const (
 	enableOpenTelemetryAnnotation = "enable-opentelemetry"
 	otelTrustSpanAnnotation       = "opentelemetry-trust-incoming-span"
 	otelOperationNameAnnotation   = "opentelemetry-operation-name"
+	otelServiceNameAnnotation   = "opentelemetry-service-name"
 )
 
 var regexOperationName = regexp.MustCompile(`^[A-Za-z0-9_\-]*$`)
@@ -71,6 +72,7 @@ type Config struct {
 	TrustEnabled  bool   `json:"trust-enabled"`
 	TrustSet      bool   `json:"trust-set"`
 	OperationName string `json:"operation-name"`
+	ServiceName string `json:"service-name"`
 }
 
 // Equal tests for equality between two Config types
@@ -95,6 +97,9 @@ func (bd1 *Config) Equal(bd2 *Config) bool {
 		return false
 	}
 
+	if bd1.ServiceName != bd2.ServiceName {
+		return false
+	}
 	return true
 }
 
@@ -129,6 +134,14 @@ func (c opentelemetry) Parse(ing *networking.Ingress) (interface{}, error) {
 			return &cfg, nil
 		}
 		cfg.OperationName = operationName
+		serviceName, err := parser.GetStringAnnotation(otelServiceNameAnnotation, ing, c.annotationConfig.Annotations)
+		if err != nil {
+			if errors.IsValidationError(err) {
+				return nil, err
+			}
+			return &cfg, nil
+		}
+		cfg.ServiceName = serviceName
 		return &cfg, nil
 	}
 
@@ -142,6 +155,14 @@ func (c opentelemetry) Parse(ing *networking.Ingress) (interface{}, error) {
 		return &cfg, nil
 	}
 	cfg.OperationName = operationName
+	serviceName, err := parser.GetStringAnnotation(otelServiceNameAnnotation, ing, c.annotationConfig.Annotations)
+	if err != nil {
+		if errors.IsValidationError(err) {
+			return nil, err
+		}
+		return &cfg, nil
+	}
+	cfg.ServiceName = serviceName
 	return &cfg, nil
 }
 
