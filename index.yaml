@@ -3,6 +3,35 @@ entries:
   ingress-nginx:
   - annotations:
       artifacthub.io/changes: |
+        - Update Ingress-Nginx version controller-v1.12.0-beta.0
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.12.0-beta.0
+    created: "2024-11-04T17:03:34.146730288Z"
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: 81e7476dda7d905394d017a6f3826aeca9c7e6217f32790834f0c6bfea8f11d6
+    home: https://github.com/kubernetes/ingress-nginx
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
+    keywords:
+    - ingress
+    - nginx
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - name: cpanato
+    - name: Gacko
+    - name: puerco
+    - name: rikatz
+    - name: strongjz
+    - name: tao12345666333
+    name: ingress-nginx
+    sources:
+    - https://github.com/kubernetes/ingress-nginx
+    urls:
+    - https://github.com/esigo/ingress-nginx/releases/download/helm-chart-4.12.0-beta.0/ingress-nginx-4.12.0-beta.0.tgz
+    version: 4.12.0-beta.0
+  - annotations:
+      artifacthub.io/changes: |
         - "[8481](https://github.com/kubernetes/ingress-nginx/pull/8481) Fix log creation in chroot script"
         - "[8479](https://github.com/kubernetes/ingress-nginx/pull/8479) changed nginx base img tag to img built with alpine3.14.6"
         - "[8478](https://github.com/kubernetes/ingress-nginx/pull/8478) update base images and protobuf gomod"
@@ -2362,4 +2391,4 @@ entries:
     urls:
     - https://github.com/kubernetes/ingress-nginx/releases/download/ingress-nginx-2.0.0/ingress-nginx-2.0.0.tgz
     version: 2.0.0
-generated: "2022-05-10T16:14:44.024467089Z"
+generated: "2024-11-04T17:03:34.147043625Z"
